@@ -1,8 +1,8 @@
 #!/bin/bash
 
-model="dose"
+model="rcov"
 for seed in {1..5}; do 
-	python run_benchmark.py --vis --vis-latents --seed $seed --train --benchmark $model --dataset gaussian 
+	python run_benchmark.py --vis --vis-latents --seed $seed --train --benchmark $model 
 done
 
-python run_benchmark.py --vis --vis-latents --test --benchmark $model --dataset gaussian
+python run_benchmark.py --vis --vis-latents --test --benchmark $model 

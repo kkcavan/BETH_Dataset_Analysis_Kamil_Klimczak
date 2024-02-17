@@ -8,6 +8,8 @@ from torch.distributions import Categorical, Independent, MixtureSameFamily, Nor
 import tqdm
 
 from dose import DoSE_SVM, kl_divergence
+from sklearn.ensemble import IsolationForest
+from sklearn.linear_model import SGDOneClassSVM
 
 
 ## scikit-learn models
