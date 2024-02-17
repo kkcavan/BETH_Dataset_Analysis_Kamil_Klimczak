@@ -1,4 +1,5 @@
 import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 import numpy as np
 import os
@@ -6,9 +7,12 @@ import seaborn as sns
 
 from benchmarks import BENCHMARK_LIST
 from dataset import BETHDataset, GaussianDataset
-
+plt.rcParams['font.family'] = 'sans-serif'
 matplotlib.use('Agg')
-sns.set()
+sns.set_theme()
+
+import threading
+plot_lock = threading.Lock()
 
 def plot_benchmark(model):
     # fig = plt.gcf()
@@ -30,9 +34,9 @@ def plot_line(x, y, filename="", xlabel="", ylabel=""):
     sns.lineplot(x=x, y=y)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
-
-    plt.savefig(os.path.join("results", f"{filename}.png"))
-    plt.close()
+    with plot_lock:
+        plt.savefig(os.path.join("results", f"{filename}.png"))
+        plt.close()
 
 
 def plot_2d_dataset(dataset_list, label_list, prefix="results/dataset", suffix="", xlim=None, ylim=None):
@@ -91,5 +95,6 @@ def plot_data(dataset_list, label_list, base_dataset, prefix="dataset", suffix="
     else:
         filename = base_dataset.plot(dataset_list, label_list, prefix, suffix)
     plt.legend(loc='upper right')
-    plt.savefig(os.path.join("results", f"{filename}.png"))
-    plt.close()
+    with plot_lock:
+        plt.savefig(os.path.join("results", f"{filename}.png"))
+        plt.close()
